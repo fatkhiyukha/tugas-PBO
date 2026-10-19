@@ -17,22 +17,27 @@ class Produk
         $this->stok = $stok;
     }
 
-    public function hargaSetelahPajak(): int
+    public static function hitungHargaSetelahPajak(int $harga): int
     {
-        return (int) round($this->harga + ($this->harga * self::PAJAK));
+        return (int) round($harga + ($harga * self::PAJAK));
     }
-}
 
-function rupiah(int $angka): string
-{
-    return "Rp" . number_format($angka, 0, ",", ".");
+    public static function rupiah(int $angka): string
+    {
+        return "Rp" . number_format($angka, 0, ",", ".");
+    }
+
+    public static function tampilkanProduk(Produk $produk): void
+    {
+        echo "Produk: " . $produk->nama . PHP_EOL;
+        echo "Harga: " . self::rupiah($produk->harga) . PHP_EOL;
+        echo "Stok: " . $produk->stok . PHP_EOL;
+        echo "Pajak: " . (self::PAJAK * 100) . "%" . PHP_EOL;
+        echo PHP_EOL;
+        echo "Total harga setelah pajak: " . self::rupiah(self::hitungHargaSetelahPajak($produk->harga)) . PHP_EOL;
+    }
 }
 
 $produk = new Produk("P001", "Laptop", 10000000, 5);
 
-echo "Produk: " . $produk->nama . PHP_EOL;
-echo "Harga: " . rupiah($produk->harga) . PHP_EOL;
-echo "Stok: " . $produk->stok . PHP_EOL;
-echo "Pajak: " . (Produk::PAJAK * 100) . "%" . PHP_EOL;
-echo PHP_EOL;
-echo "Total harga setelah pajak: " . rupiah($produk->hargaSetelahPajak()) . PHP_EOL;
+Produk::tampilkanProduk($produk);
